@@ -1,0 +1,12 @@
+@for (item of produtos(); track item.nome) {
+  <app-produto
+    [nome]="item.nome"
+    [preco]="item.preco"
+    (produtoSelecionado)="exibirProduto($event)"
+  ></app-produto>
+} <br> <br>
+
+<h2>Total de produtos: {{ totalProdutos() }}</h2> <!--Signals são funções. Sem parenteses o Angular exibirá o signal em vez do valor calculado. --> 
+<h3>Valor total: R$ {{ valorTotal() }}</h3> <!-- Conversa com a função que está com um signal do lista produtos.ts-->
+<p><button (click)="adicionarProduto()">Adicionar Produto</button></p> <!-- Conversa com o metodo na classe do TS.-->
+<p><button (click)="substituirProdutos()">Substituir Lista</button></p>
