@@ -16,4 +16,3 @@ export class Produto {
     this.produtoSelecionado.emit(this.nome);
   }
 }
-
