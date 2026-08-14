@@ -1,5 +1,4 @@
 import { Component, signal, computed, effect, inject } from '@angular/core';
-
 import { Produto } from '../produto/produto';
 import { ProdutosService } from '../produtos.service';
 
@@ -23,6 +22,7 @@ export class ListaProdutos {
 
   carrinho = signal<{ nome: string; preco: number }[]>([]);
 
+  erro = signal<string | null > (null);
   // COMPUTED SIGNALS
 
   // computed signal - observa outro signal e se atualiza automaticamente
@@ -60,8 +60,8 @@ export class ListaProdutos {
   } // fim do constructor
 
   carregarProdutos() {
-    this.carregando.set(true);
-
+    this.erro.set(null); // limpa erro anterior
+    this.carregando.set(true); // ativa loading
     this.produtosService.buscarProdutos().subscribe({
       next: (dados) => {
         const produtos = this.produtosService.transformarProdutos(dados);
@@ -70,6 +70,7 @@ export class ListaProdutos {
       },
       error: (erro) => {
         console.error('Erro ao carregar produtos:', erro);
+        this.erro.set('Erro ao carregar produtos. Verifique sua conexão e tente novamente.');
         this.carregando.set(false);
       },
     });
@@ -92,3 +93,4 @@ export class ListaProdutos {
     this.carrinho.update((listaAtual) => [...listaAtual, produto]);
   }
 }
+
